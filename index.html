@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿鲁 · 个人主页</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&display=swap');
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #08080c;
+    --bg-card: rgba(255,255,255,0.03);
+    --text: #f2efe9;
+    --text-bright: #ffffff;
+    --text-muted: #9d9aa0;
+    --accent: #ff6b6b;
+    --accent-glow: #ff8787;
+    --gold: #e8c48a;
+    --border: rgba(255,255,255,0.08);
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'SimSun', 'STSong', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Animated gradient background ── */
+  .gradient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .gradient-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.45;
+    animation: blobFloat linear infinite;
+  }
+
+  .gradient-blob:nth-child(1) {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,107,107,0.35) 0%, transparent 70%);
+    top: -200px;
+    left: -150px;
+    animation-duration: 20s;
+    animation-delay: 0s;
+  }
+
+  .gradient-blob:nth-child(2) {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(120,100,220,0.3) 0%, transparent 70%);
+    top: 40%;
+    right: -200px;
+    animation-duration: 24s;
+    animation-delay: -7s;
+  }
+
+  .gradient-blob:nth-child(3) {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232,196,138,0.25) 0%, transparent 70%);
+    bottom: -150px;
+    left: 30%;
+    animation-duration: 22s;
+    animation-delay: -14s;
+  }
+
+  .gradient-blob:nth-child(4) {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(100,180,220,0.2) 0%, transparent 70%);
+    top: -100px;
+    right: 30%;
+    animation-duration: 26s;
+    animation-delay: -3s;
+  }
+
+  @keyframes blobFloat {
+    0%   { transform: translate(0, 0) scale(1); }
+    25%  { transform: translate(60px, -80px) scale(1.15); }
+    50%  { transform: translate(-30px, 40px) scale(0.9); }
+    75%  { transform: translate(-70px, -30px) scale(1.1); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  /* ── Floating particles ── */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav-logo {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    font-weight: 900;
+    color: var(--text-bright);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.25s;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-links a:hover { color: var(--text-bright); }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 2px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    font-size: 2.8rem;
+    position: relative;
+    box-shadow: 0 0 60px rgba(255,107,107,0.08), 0 0 100px rgba(255,107,107,0.04);
+  }
+
+  .hero-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--gold), #7864dc);
+    z-index: -1;
+    opacity: 0.35;
+    filter: blur(10px);
+  }
+
+  .hero-greeting {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    font-weight: 300;
+  }
+
+  .hero-name {
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    color: var(--text-bright);
+    line-height: 1.2;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* ── Quote / Sword section ── */
+  .quote-section {
+    padding: 40px 0 60px;
+    position: relative;
+  }
+
+  .quote-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+  }
+
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  .quote-sword-icon {
+    font-size: 3rem;
+    margin-bottom: 24px;
+    display: block;
+    animation: swordPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes swordPulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255,107,107,0.3)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(255,107,107,0.55)); }
+  }
+
+  .quote-text {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 2.1;
+    letter-spacing: 0.06em;
+    color: var(--text-bright);
+  }
+
+  .quote-text .highlight {
+    color: var(--accent-glow);
+    font-weight: 700;
+  }
+
+  .quote-attribution {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Powers grid ── */
+  .powers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    padding: 20px 0 60px;
+  }
+
+  .power-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: default;
+    backdrop-filter: blur(8px);
+  }
+
+  .power-item:hover {
+    border-color: rgba(255,107,107,0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255,107,107,0.1);
+  }
+
+  .power-icon {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .power-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Section titles ── */
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px 0 32px;
+    letter-spacing: 0.1em;
+    color: var(--text-bright);
+  }
+
+  /* ── Anime / About ── */
+  .about-section {
+    padding: 0 0 60px;
+  }
+
+  .about-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(12px);
+  }
+
+  @media (min-width: 640px) {
+    .about-card { flex-direction: row; align-items: center; gap: 40px; }
+  }
+
+  .about-emoji {
+    font-size: 4rem;
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border-radius: 20px;
+  }
+
+  .about-text h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.06em;
+    color: var(--text-bright);
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.9;
+  }
+
+  .anime-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .anime-tag {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    padding: 4px 14px;
+    border-radius: 100px;
+    background: rgba(255,107,107,0.08);
+    color: var(--accent-glow);
+    border: 1px solid rgba(255,107,107,0.2);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-top: 1px solid var(--border);
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.25s;
+    font-size: 1.1rem;
+    background: var(--bg-card);
+  }
+
+  .social-link:hover {
+    border-color: var(--accent);
+    color: var(--accent-glow);
+    box-shadow: 0 0 20px rgba(255,107,107,0.2);
+    transform: translateY(-2px);
+  }
+
+  .footer-text {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .wrapper { padding: 0 16px; }
+    .hero { padding: 50px 0 40px; }
+    .quote-card { padding: 32px 20px; }
+    .about-card { padding: 28px; }
+    .powers { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .power-item { padding: 14px 8px; }
+    .power-icon { font-size: 1.3rem; }
+    .power-label { font-size: 0.75rem; }
+    nav { padding: 16px 0; }
+    .nav-links { gap: 16px; }
+    .gradient-blob:nth-child(1),
+    .gradient-blob:nth-child(2),
+    .gradient-blob:nth-child(3),
+    .gradient-blob:nth-child(4) { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Animated gradient background -->
+<div class="gradient-bg">
+  <div class="gradient-blob"></div>
+  <div class="gradient-blob"></div>
+  <div class="gradient-blob"></div>
+  <div class="gradient-blob"></div>
+</div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="wrapper">
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-logo">阿鲁</a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#quote">剑铭</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-avatar">⚔️</div>
+    <p class="hero-greeting">· 动漫迷 · 剑客 ·</p>
+    <h1 class="hero-name">阿 鲁</h1>
+    <span class="hero-tag">二次元居民</span>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote-section" id="quote">
+    <div class="quote-card">
+      <span class="quote-sword-icon">🗡️</span>
+      <p class="quote-text">
+        我<span class="highlight">阿鲁</span>，<br>
+        唯有一剑，可<br>
+        <span class="highlight">搬山</span>，<span class="highlight">倒海</span>，<span class="highlight">降妖</span>，<span class="highlight">镇魔</span>，<br>
+        <span class="highlight">敕神</span>，<span class="highlight">摘星</span>，<span class="highlight">断江</span>，<span class="highlight">摧城</span>，<br>
+        <span class="highlight">开天</span>。
+      </p>
+      <p class="quote-attribution">—— 阿鲁</p>
+    </div>
+  </section>
+
+  <!-- Nine Powers Grid -->
+  <div class="powers">
+    <div class="power-item">
+      <span class="power-icon">⛰️</span>
+      <span class="power-label">搬山</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">🌊</span>
+      <span class="power-label">倒海</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">👹</span>
+      <span class="power-label">降妖</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">👿</span>
+      <span class="power-label">镇魔</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">⚡</span>
+      <span class="power-label">敕神</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">⭐</span>
+      <span class="power-label">摘星</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">🏞️</span>
+      <span class="power-label">断江</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">🏰</span>
+      <span class="power-label">摧城</span>
+    </div>
+    <div class="power-item">
+      <span class="power-icon">🌅</span>
+      <span class="power-label">开天</span>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section class="about-section" id="about">
+    <h2 class="section-title">✦ 关 于 ✦</h2>
+    <div class="about-card">
+      <div class="about-emoji">🎬</div>
+      <div class="about-text">
+        <h3>你好，我是阿鲁</h3>
+        <p>
+          一个沉浸在二次元世界里的灵魂。热爱动漫、热血与剑客的浪漫。
+          相信每个人心中都有一把剑 —— 能斩断迷茫，劈开属于自己的天空。
+          在这里，剑即是信念，世界即是江湖。
+        </p>
+        <div class="anime-tags">
+          <span class="anime-tag"># 热血番</span>
+          <span class="anime-tag"># 武侠</span>
+          <span class="anime-tag"># 奇幻</span>
+          <span class="anime-tag"># 少年漫</span>
+          <span class="anime-tag"># 轻小说</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="social-links">
+      <a href="https://weibo.com/u/6313216632" class="social-link" title="微博" aria-label="微博" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 12c0-1.5 1-4 4-4s4 2.5 4 4"/>
+          <path d="M7.5 13.5c-.5 1.5 0 3.5 1.5 3.5"/>
+          <path d="M16.5 13.5c.5 1.5 0 3.5-1.5 3.5"/>
+        </svg>
+      </a>
+    </div>
+    <p class="footer-text">© 2026 阿鲁 · 仗剑走天涯</p>
+  </footer>
+
+</div>
+
+<script>
+  /* Floating particles */
+  const container = document.getElementById('particles');
+  const count = 35;
+  const colors = ['#ff6b6b', '#e8c48a', '#7864dc', '#64b4dc', '#ffffff'];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 18) + 's';
+    p.style.animationDelay = Math.random() * 15 + 's';
+    const size = 1 + Math.random() * 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    container.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
